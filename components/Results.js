@@ -1,12 +1,8 @@
 import { StyleSheet, Modal, View, Text, Button, Image } from "react-native";
 export default function Results(props) {
   function formatTime(unixTime) {
-    var time = unixTime + timezone;
-    var date = new Date(time * 1000);
-    var hours = date.getHours();
-    var minutes = "0" + date.getMinutes();
-    var formattedTime = hours + ":" + minutes.substr(-2);
-    return formattedTime;
+    const date = new Date(unixTime * 1000);
+    return `${date.getHours()}:${date.getMinutes()}`;
   }
 
   const weatherData = JSON.parse(props.data);
@@ -14,8 +10,7 @@ export default function Results(props) {
   // Main data
   const countryCode = weatherData.sys.country;
   const cityName = weatherData.name;
-  const timezone = weatherData.timezone;
-  const iconCode = weatherData.weather[0].icon;
+  // const iconCode = weatherData.weather[0].icon;
   const temp = weatherData.main.temp;
   const feelsLike = weatherData.main.feels_like;
   const humidity = weatherData.main.humidity;
@@ -31,46 +26,58 @@ export default function Results(props) {
       <View style={styles.rootContainer}>
         <View style={styles.mainCont}>
           <View style={styles.headerCont}>
-            <Text style={headerText}>
+            <Text style={styles.headerText}>
               {cityName}, {countryCode}
             </Text>
           </View>
           <View style={styles.dataCont}>
             <View style={styles.degreeCont}>
-              <View style={degreeMain}>
+              <View style={styles.TextdegreeMain}>
                 <Text>{temp}°</Text>
                 <Text>
                   {tempMax}°/{tempMin}°
                 </Text>
               </View>
-              <View style={degreesecondary}>
+              <View style={styles.degreeSecondary}>
                 <Text>feels like {feelsLike}°</Text>
               </View>
             </View>
             <View style={styles.imageCont}>
               <Image
-                source={require(`../assets/images/weatherIcons/${iconCode}.png`)}
+                source={require(`../assets/images/weatherIcons/01d.png`)}
               />
             </View>
           </View>
         </View>
         <View style={styles.secondaryCont}>
           <View style={styles.cardCont}>
-            <Image sourc={require("../assets/images/results/humidity.png")} />
-            <Text>{humidity}</Text>
+            <Image
+              style={styles.cardImage}
+              source={require("../assets/images/results/humidity.png")}
+            />
+            <Text>{humidity}%</Text>
           </View>
           <View style={styles.cardCont}>
-            <Image sourc={require("../assets/images/results/wind.png")} />
+            <Image
+              style={styles.cardImage}
+              source={require("../assets/images/results/wind.png")}
+            />
             <Text>
               {windSpeed}({windDegree})
             </Text>
           </View>
           <View style={styles.cardCont}>
-            <Image sourc={require("../assets/images/results/sunrise.png")} />
+            <Image
+              style={styles.cardImage}
+              source={require("../assets/images/results/sunrise.png")}
+            />
             <Text>{formatTime(sunrise)}</Text>
           </View>
           <View style={styles.cardCont}>
-            <Image sourc={require("../assets/images/results/sunset.png")} />
+            <Image
+              style={styles.cardImage}
+              source={require("../assets/images/results/sunset.png")}
+            />
             <Text>{formatTime(sunset)}</Text>
           </View>
         </View>
@@ -80,8 +87,9 @@ export default function Results(props) {
   );
 }
 
-const styles = StyleSheet.create({});
-
-{
-  /* <Button title="back" onPress={props.toggleResults} /> */
-}
+const styles = StyleSheet.create({
+  cardImage: {
+    width: 20,
+    height: 20,
+  },
+});
