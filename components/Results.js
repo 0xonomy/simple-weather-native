@@ -12,11 +12,11 @@ export default function Results(props) {
   const countryCode = weatherData.sys.country;
   const cityName = weatherData.name;
   const iconCode = weatherData.weather[0].icon;
-  const temp = weatherData.main.temp;
-  const feelsLike = weatherData.main.feels_like;
+  const temp = Math.round(weatherData.main.temp);
+  const feelsLike = Math.round(weatherData.main.feels_like);
+  const tempMax = Math.round(weatherData.main.temp_max);
+  const tempMin = Math.round(weatherData.main.temp_min);
   const humidity = weatherData.main.humidity;
-  const tempMax = weatherData.main.temp_max;
-  const tempMin = weatherData.main.temp_min;
   const windSpeed = weatherData.wind.speed;
   const windDegree = weatherData.wind.deg;
   const sunrise = weatherData.sys.sunrise;
@@ -84,25 +84,29 @@ export default function Results(props) {
     <Modal visible={props.visible} animationType="slide">
       <View style={styles.rootContainer}>
         <View style={styles.mainCont}>
-          <View style={styles.headerCont}>
-            <Text style={styles.headerText}>
-              {cityName}, {countryCode}
-            </Text>
-          </View>
-          <View style={styles.dataCont}>
-            <View style={styles.degreeCont}>
-              <View style={styles.TextdegreeMain}>
-                <Text>{temp}°</Text>
-                <Text>
-                  {tempMax}°/{tempMin}°
-                </Text>
-              </View>
-              <View style={styles.degreeSecondary}>
-                <Text>feels like {feelsLike}°</Text>
-              </View>
+          <View style={styles.mainContChild}>
+            <View style={styles.headerCont}>
+              <Text style={styles.headerText}>
+                {cityName}, {countryCode}
+              </Text>
             </View>
-            <View style={styles.imageCont}>
-              <Image style={mainImage} source={mainImagePath} />
+            <View style={styles.dataCont}>
+              <View style={styles.tempCont}>
+                <View style={styles.mainTempCont}>
+                  <Text style={styles.mainTemp}>{temp}°</Text>
+                  <View style={styles.minmaxCont}>
+                    <Text style={styles.minMaxTemp}>
+                      {tempMax}°/{tempMin}°
+                    </Text>
+                  </View>
+                </View>
+                <View style={styles.tempSecondary}>
+                  <Text style={styles.feelTemp}>feels like {feelsLike}°</Text>
+                </View>
+              </View>
+              <View style={styles.imageCont}>
+                <Image style={styles.mainImage} source={mainImagePath} />
+              </View>
             </View>
           </View>
         </View>
@@ -145,13 +149,82 @@ export default function Results(props) {
 }
 
 const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "#2B2D42",
+  },
+
+  mainCont: {
+    flex: 3,
+    backgroundColor: "#8D99AE",
+    marginTop: 18,
+    marginRight: 18,
+    marginLeft: 18,
+    borderRadius: 8,
+    flexDirection: "column",
+  },
+
+  mainContChild: {
+    margin: 15,
+  },
+
+  dataCont: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
+  headerText: {
+    fontSize: 30,
+    paddingVertical: 5,
+    paddingBottom: 15,
+  },
+
+  imageCont: {
+    flex: 0,
+  },
+
+  tempCont: {
+    alignContent: "space-between",
+  },
+
+  mainTempCont: {
+    flexDirection: "row",
+  },
+
+  mainTemp: {
+    fontSize: 80,
+  },
+
+  minMaxTemp: {
+    height: 30,
+    marginTop: "100%",
+    fontSize: 18,
+    fontWeight: "400",
+  },
+
+  feelTemp: {
+    paddingTop: 10,
+    fontSize: 18,
+    fontWeight: "500",
+  },
+
+  secondaryCont: {
+    flex: 5,
+    backgroundColor: "#8D99AE",
+    marginTop: 18,
+    marginRight: 18,
+    marginLeft: 18,
+    borderRadius: 8,
+  },
+
   cardImage: {
-    width: 20,
-    height: 20,
+    width: 60,
+    height: 60,
   },
 
   mainImage: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
   },
 });
