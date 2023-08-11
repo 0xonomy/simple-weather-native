@@ -1,4 +1,5 @@
 import { StyleSheet, Modal, View, Text, Button, Image } from "react-native";
+
 export default function Results(props) {
   function formatTime(unixTime) {
     const date = new Date(unixTime * 1000);
@@ -10,7 +11,7 @@ export default function Results(props) {
   // Main data
   const countryCode = weatherData.sys.country;
   const cityName = weatherData.name;
-  // const iconCode = weatherData.weather[0].icon;
+  const iconCode = weatherData.weather[0].icon;
   const temp = weatherData.main.temp;
   const feelsLike = weatherData.main.feels_like;
   const humidity = weatherData.main.humidity;
@@ -20,6 +21,64 @@ export default function Results(props) {
   const windDegree = weatherData.wind.deg;
   const sunrise = weatherData.sys.sunrise;
   const sunset = weatherData.sys.sunset;
+
+  let mainImagePath;
+  switch (iconCode) {
+    case "01d":
+      mainImagePath = require("../assets/images/weatherIcons/01d.png");
+      break;
+    case "01n":
+      mainImagePath = require("../assets/images/weatherIcons/01n.png");
+      break;
+    case "02d":
+      mainImagePath = require("../assets/images/weatherIcons/02d.png");
+      break;
+    case "02n":
+      mainImagePath = require("../assets/images/weatherIcons/02n.png");
+      break;
+    case "03d":
+      mainImagePath = require("../assets/images/weatherIcons/03d.png");
+      break;
+    case "03n":
+      mainImagePath = require("../assets/images/weatherIcons/03n.png");
+      break;
+    case "04d":
+      mainImagePath = require("../assets/images/weatherIcons/04d.png");
+      break;
+    case "04n":
+      mainImagePath = require("../assets/images/weatherIcons/04n.png");
+      break;
+    case "09d":
+      mainImagePath = require("../assets/images/weatherIcons/09d.png");
+      break;
+    case "09n":
+      mainImagePath = require("../assets/images/weatherIcons/09n.png");
+      break;
+    case "10d":
+      mainImagePath = require("../assets/images/weatherIcons/10d.png");
+      break;
+    case "10n":
+      mainImagePath = require("../assets/images/weatherIcons/10n.png");
+      break;
+    case "11d":
+      mainImagePath = require("../assets/images/weatherIcons/11d.png");
+      break;
+    case "11n":
+      mainImagePath = require("../assets/images/weatherIcons/11n.png");
+      break;
+    case "13d":
+      mainImagePath = require("../assets/images/weatherIcons/13d.png");
+      break;
+    case "13n":
+      mainImagePath = require("../assets/images/weatherIcons/13n.png");
+      break;
+    case "50d":
+      mainImagePath = require("../assets/images/weatherIcons/50d.png");
+      break;
+    case "50n":
+      mainImagePath = require("../assets/images/weatherIcons/50n.png");
+      break;
+  }
 
   return (
     <Modal visible={props.visible} animationType="slide">
@@ -43,9 +102,7 @@ export default function Results(props) {
               </View>
             </View>
             <View style={styles.imageCont}>
-              <Image
-                source={require(`../assets/images/weatherIcons/01d.png`)}
-              />
+              <Image style={mainImage} source={mainImagePath} />
             </View>
           </View>
         </View>
@@ -91,5 +148,10 @@ const styles = StyleSheet.create({
   cardImage: {
     width: 20,
     height: 20,
+  },
+
+  mainImage: {
+    width: 100,
+    height: 100,
   },
 });
