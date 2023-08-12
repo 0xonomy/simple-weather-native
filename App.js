@@ -5,6 +5,7 @@ import {
   Image,
   TextInput,
   Button,
+  Text,
   ToastAndroid,
 } from "react-native";
 import Results from "./components/Results";
@@ -62,6 +63,9 @@ export default function App() {
           <Button title="get" color="#7373cc" onPress={fetchData} />
         </View>
       </View>
+      <View style={styles.bottomCont}>
+        <Text style={styles.about}>Created by Ali Valiev</Text>
+      </View>
     </View>
   );
 }
@@ -101,5 +105,15 @@ const styles = StyleSheet.create({
     padding: 5,
     width: "85%",
     marginRight: "3%",
+  },
+
+  bottomCont: {
+    position: "absolute",
+    bottom: 0,
+    padding: 10,
+  },
+
+  about: {
+    color: "#EDF2F4",
   },
 });

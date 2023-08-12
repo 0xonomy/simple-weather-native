@@ -1,27 +1,20 @@
-import {
-  StyleSheet,
-  Modal,
-  View,
-  Text,
-  BackHandler,
-  Image,
-} from "react-native";
-// import BackHandler from "react-native-backhandler";
+import { StyleSheet, Modal, View, Text, Image } from "react-native";
 
 export default function Results(props) {
-  const handleBackButton = () => {
-    props.toggleResults();
-  };
-
-  const addBackButtonListener = () => {
-    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
-  };
-
-  addBackButtonListener();
-
   function formatTime(unixTime) {
     const date = new Date(unixTime * 1000);
-    return `${date.getHours()}:0${date.getMinutes()}`;
+    // return `${date.getHours()}:0${date.getMinutes()}`;
+    const hour = date.getHours();
+    const minutes = date.getMinutes();
+    if (hour > 9 && minutes > 9) {
+      return `${date.getHours()}:${date.getMinutes()}`;
+    } else if (hour > 9 && minutes <= 9) {
+      return `${date.getHours()}:0${date.getMinutes()}`;
+    } else if (hour <= 9 && minutes > 9) {
+      return `0${date.getHours()}:${date.getMinutes()}`;
+    } else {
+      return `0${date.getHours()}:0${date.getMinutes()}`;
+    }
   }
 
   const weatherData = JSON.parse(props.data);
@@ -99,7 +92,13 @@ export default function Results(props) {
   }
 
   return (
-    <Modal visible={props.visible} animationType="slide">
+    <Modal
+      visible={props.visible}
+      animationType="slide"
+      onRequestClose={() => {
+        props.toggleResults();
+      }}
+    >
       <View style={styles.rootContainer}>
         <View style={styles.mainCont}>
           <View style={styles.mainContChild}>
@@ -141,9 +140,7 @@ export default function Results(props) {
               style={styles.cardImage}
               source={require("../assets/images/results/wind.png")}
             />
-            <Text style={styles.secondaryText}>
-              {windSpeed}({windDegree})
-            </Text>
+            <Text style={styles.secondaryText}>{windSpeed}m/sec</Text>
           </View>
           <View style={styles.cardCont}>
             <Image
