@@ -1,9 +1,27 @@
-import { StyleSheet, Modal, View, Text, Button, Image } from "react-native";
+import {
+  StyleSheet,
+  Modal,
+  View,
+  Text,
+  BackHandler,
+  Image,
+} from "react-native";
+// import BackHandler from "react-native-backhandler";
 
 export default function Results(props) {
+  const handleBackButton = () => {
+    props.toggleResults();
+  };
+
+  const addBackButtonListener = () => {
+    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
+  };
+
+  addBackButtonListener();
+
   function formatTime(unixTime) {
     const date = new Date(unixTime * 1000);
-    return `${date.getHours()}:${date.getMinutes()}`;
+    return `${date.getHours()}:0${date.getMinutes()}`;
   }
 
   const weatherData = JSON.parse(props.data);
@@ -116,14 +134,14 @@ export default function Results(props) {
               style={styles.cardImage}
               source={require("../assets/images/results/humidity.png")}
             />
-            <Text>{humidity}%</Text>
+            <Text style={styles.secondaryText}>{humidity}%</Text>
           </View>
           <View style={styles.cardCont}>
             <Image
               style={styles.cardImage}
               source={require("../assets/images/results/wind.png")}
             />
-            <Text>
+            <Text style={styles.secondaryText}>
               {windSpeed}({windDegree})
             </Text>
           </View>
@@ -132,18 +150,18 @@ export default function Results(props) {
               style={styles.cardImage}
               source={require("../assets/images/results/sunrise.png")}
             />
-            <Text>{formatTime(sunrise)}</Text>
+            <Text style={styles.secondaryText}>{formatTime(sunrise)}</Text>
           </View>
-          <View style={styles.cardCont}>
+          <View style={styles.lastChild}>
             <Image
               style={styles.cardImage}
               source={require("../assets/images/results/sunset.png")}
             />
-            <Text>{formatTime(sunset)}</Text>
+            <Text style={styles.secondaryText}>{formatTime(sunset)}</Text>
           </View>
         </View>
       </View>
-      <Button title="back" onPress={props.toggleResults} />
+      {/* <Button title="back" onPress={props.toggleResults} />s */}
     </Modal>
   );
 }
@@ -215,12 +233,34 @@ const styles = StyleSheet.create({
     marginTop: 18,
     marginRight: 18,
     marginLeft: 18,
+    marginBottom: 18,
     borderRadius: 8,
   },
 
+  cardCont: {
+    flexDirection: "row",
+    paddingVertical: 21,
+    marginHorizontal: 25,
+    justifyContent: "space-between",
+    borderBottomWidth: 2,
+    borderBottomColor: "black",
+  },
+
+  lastChild: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 21,
+    paddingHorizontal: 25,
+  },
+
+  secondaryText: {
+    paddingTop: "10%",
+    fontSize: 17,
+  },
+
   cardImage: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 80,
   },
 
   mainImage: {
